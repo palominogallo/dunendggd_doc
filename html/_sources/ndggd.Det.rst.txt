@@ -1,0 +1,30 @@
+ndggd.Det package
+=================
+
+Submodules
+----------
+
+ndggd.Det.Primary module
+------------------------
+
+.. automodule:: ndggd.Det.Primary
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Det.Secondary module
+--------------------------
+
+.. automodule:: ndggd.Det.Secondary
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: ndggd.Det
+    :members:
+    :undoc-members:
+    :show-inheritance:

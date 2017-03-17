@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ndggd.Module.MuIDBarrel &#8212; dunendggd_doc 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ndggd.Module.MuIDBarrel</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Subbuilder of Detector</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">gegede.builder</span>
+<span class="kn">from</span> <span class="nn">gegede</span> <span class="k">import</span> <span class="n">Quantity</span> <span class="k">as</span> <span class="n">Q</span>
+
+
+<div class="viewcode-block" id="MuIDBarrelBuilder"><a class="viewcode-back" href="../../../ndggd.Module.html#ndggd.Module.MuIDBarrel.MuIDBarrelBuilder">[docs]</a><span class="k">class</span> <span class="nc">MuIDBarrelBuilder</span><span class="p">(</span><span class="n">gegede</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">Builder</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Assemble RPC trays in the magnet yoke </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1">#^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^</span>
+<div class="viewcode-block" id="MuIDBarrelBuilder.configure"><a class="viewcode-back" href="../../../ndggd.Module.html#ndggd.Module.MuIDBarrel.MuIDBarrelBuilder.configure">[docs]</a>    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">muidInDim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">magInDim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">magThickness</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">steelPlateThickness</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gap_tworpctrays</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">air_gap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">muidInDim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No value given for muidInDim&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">defMat</span> <span class="o">=</span> <span class="s2">&quot;Steel&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span>  <span class="o">=</span> <span class="n">muidInDim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span>   <span class="o">=</span> <span class="n">magInDim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magThickness</span> <span class="o">=</span> <span class="n">magThickness</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span> <span class="o">=</span> <span class="n">steelPlateThickness</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gap_tworpctrays</span> <span class="o">=</span> <span class="n">gap_tworpctrays</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span> <span class="o">=</span> <span class="n">air_gap</span>
+
+        <span class="c1"># Get RPC tray builders</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RPCTraySmallBldr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;RPCTray_BarSmall&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayMidFBldr</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;RPCTray_BarMidF&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayMidSBldr</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;RPCTray_BarMidS&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayBigBldr</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;RPCTray_BarBig&#39;</span><span class="p">)</span></div>
+
+
+    <span class="c1">#^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^</span>
+<div class="viewcode-block" id="MuIDBarrelBuilder.construct"><a class="viewcode-back" href="../../../ndggd.Module.html#ndggd.Module.MuIDBarrel.MuIDBarrelBuilder.construct">[docs]</a>    <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geom</span><span class="p">):</span>
+
+
+        <span class="c1"># Get the RPC tray volumes and dimensions</span>
+        <span class="n">smallTray_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTraySmallBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volRPCTray_BarSmall&#39;</span><span class="p">)</span>
+        <span class="n">fmidTray_lv</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayMidFBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volRPCTray_BarMidF&#39;</span><span class="p">)</span>
+        <span class="n">smidTray_lv</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayMidSBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volRPCTray_BarMidS&#39;</span><span class="p">)</span>
+        <span class="n">bigTray_lv</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayBigBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volRPCTray_BarBig&#39;</span><span class="p">)</span>
+        <span class="n">rpcTrayDim_small</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTraySmallBldr</span><span class="o">.</span><span class="n">rpcTrayDim</span>
+        <span class="n">rpcTrayDim_midf</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayMidFBldr</span><span class="o">.</span><span class="n">rpcTrayDim</span>
+        <span class="n">rpcTrayDim_mids</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayMidSBldr</span><span class="o">.</span><span class="n">rpcTrayDim</span>
+        <span class="n">rpcTrayDim_big</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPCTrayBigBldr</span><span class="o">.</span><span class="n">rpcTrayDim</span>
+
+
+        <span class="c1"># Just like in the EndBuilder, calculate outer dimensions </span>
+        <span class="c1">#  using other configured parameters: number of planes, thicknesses...</span>
+        <span class="c1"># For now I&#39;m using the CDR reported dimensions:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+
+        <span class="c1"># Define barrel as boolean, with hole to fit magnet inside</span>
+        <span class="n">muidOut</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span> <span class="s1">&#39;MuIDOut&#39;</span><span class="p">,</span>                 <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                   <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> 
+        <span class="n">muidIn</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span>  <span class="s1">&#39;MuIDIn&#39;</span><span class="p">,</span>                  <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                   <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>  <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> 
+        <span class="n">muidBarBox</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;subtraction&#39;</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">muidOut</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="n">muidIn</span> <span class="p">)</span>
+        <span class="n">muidBar_lv</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Volume</span><span class="p">(</span><span class="s1">&#39;vol&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">defMat</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">muidBarBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_volume</span><span class="p">(</span><span class="n">muidBar_lv</span><span class="p">)</span>
+
+
+        <span class="c1"># Place the RPC trays and steel sheets between, being mindful of rotation</span>
+        <span class="c1"># Steel Sheets: just leave the default material of volMuID* steel </span>
+        <span class="c1">#   and leave spaces instead of placing explicit volumes</span>
+        <span class="c1"># Placement of rpcTrays in vertical MuIDBarrel</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+
+           <span class="n">xpos</span>      <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mf">0.5</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+           <span class="n">xpos_mids</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="o">+</span><span class="mf">1.5</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+           <span class="n">xpos_midf</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="o">+</span><span class="mf">2.5</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+           <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">):</span>
+                   <span class="n">xpos</span>      <span class="o">=</span> <span class="o">-</span><span class="n">xpos</span>
+                   <span class="n">xpos_mids</span> <span class="o">=</span> <span class="o">-</span><span class="n">xpos_mids</span>
+                   <span class="n">xpos_midf</span> <span class="o">=</span> <span class="o">-</span><span class="n">xpos_midf</span>
+
+           <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                     <span class="n">l</span><span class="o">=-</span><span class="mi">1</span>
+           <span class="k">else</span><span class="p">:</span>
+               <span class="n">l</span><span class="o">=</span><span class="mi">1</span>
+           <span class="n">zpos</span> <span class="o">=</span> <span class="n">l</span><span class="o">*</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_tworpctrays</span><span class="o">+</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+           <span class="c1">#loop over up &amp; down layers</span>
+           <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+
+                <span class="n">ypos</span>      <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_tworpctrays</span><span class="o">+</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">ypos_mids</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_tworpctrays</span><span class="o">+</span><span class="n">rpcTrayDim_mids</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">ypos_midf</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_tworpctrays</span><span class="o">+</span><span class="n">rpcTrayDim_midf</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="p">):</span>
+					    <span class="n">ypos</span> <span class="o">=</span> <span class="o">-</span><span class="n">ypos</span>
+					    <span class="n">ypos_mids</span> <span class="o">=</span> <span class="o">-</span><span class="n">ypos_mids</span>
+					    <span class="n">ypos_midf</span> <span class="o">=</span> <span class="o">-</span><span class="n">ypos_midf</span>
+
+                <span class="n">brpct_in_muid</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span> <span class="s1">&#39;brpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                         <span class="n">xpos</span><span class="p">,</span>  <span class="n">ypos</span><span class="p">,</span>  <span class="n">zpos</span><span class="p">)</span>
+                <span class="n">pbrpct_in_muid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span> <span class="s1">&#39;pbrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                         <span class="n">volume</span> <span class="o">=</span> <span class="n">bigTray_lv</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">brpct_in_muid</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span> <span class="s2">&quot;r90aboutY&quot;</span> <span class="p">)</span>
+                <span class="n">smrpct_in_muid</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span> <span class="s1">&#39;smrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                         <span class="n">xpos_mids</span><span class="p">,</span>  <span class="n">ypos_mids</span><span class="p">,</span>  <span class="n">zpos</span><span class="p">)</span>
+                <span class="n">psmrpct_in_muid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span> <span class="s1">&#39;psmrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                          <span class="n">volume</span> <span class="o">=</span> <span class="n">smidTray_lv</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">smrpct_in_muid</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span> <span class="s2">&quot;r90aboutY&quot;</span> <span class="p">)</span>
+                <span class="n">fmrpct_in_muid</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span> <span class="s1">&#39;fmrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                         <span class="n">xpos_midf</span><span class="p">,</span>  <span class="n">ypos_midf</span><span class="p">,</span>  <span class="n">zpos</span><span class="p">)</span>
+                <span class="n">pfmrpct_in_muid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span> <span class="s1">&#39;pfmrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                          <span class="n">volume</span> <span class="o">=</span> <span class="n">fmidTray_lv</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">fmrpct_in_muid</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span> <span class="s2">&quot;r90aboutY&quot;</span> <span class="p">)</span>
+                <span class="n">muidBar_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">pbrpct_in_muid</span><span class="o">.</span><span class="n">name</span> <span class="p">)</span>
+                <span class="n">muidBar_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">psmrpct_in_muid</span><span class="o">.</span><span class="n">name</span> <span class="p">)</span>
+                <span class="n">muidBar_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">pfmrpct_in_muid</span><span class="o">.</span><span class="n">name</span> <span class="p">)</span>
+
+
+        <span class="c1"># Placement of rpcTrays in Horizontal MuIDBarrel</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+
+            <span class="n">xpos_mids</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mf">0.5</span><span class="o">*</span><span class="n">rpcTrayDim_mids</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">xpos_midf</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="o">+</span><span class="mf">0.5</span><span class="o">*</span><span class="n">rpcTrayDim_midf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">xpos_small</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="o">+</span><span class="mf">0.5</span><span class="o">*</span><span class="n">rpcTrayDim_small</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">):</span>
+                   <span class="n">xpos_mids</span>  <span class="o">=</span> <span class="o">-</span><span class="n">xpos_mids</span>
+                   <span class="n">xpos_midf</span>  <span class="o">=</span> <span class="o">-</span><span class="n">xpos_midf</span>
+                   <span class="n">xpos_small</span> <span class="o">=</span> <span class="o">-</span><span class="n">xpos_small</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                    <span class="n">l</span><span class="o">=-</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">l</span><span class="o">=</span><span class="mi">1</span>
+            <span class="n">zpos</span> <span class="o">=</span> <span class="n">l</span><span class="o">*</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gap_tworpctrays</span><span class="o">+</span><span class="n">rpcTrayDim_mids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1">#loop over up &amp; down layers</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+
+                <span class="n">ypos_mids</span>  <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">ypos_midf</span>  <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="o">-</span><span class="mf">1.5</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">ypos_small</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">steelPlateThickness</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">air_gap</span><span class="o">-</span><span class="mf">2.5</span><span class="o">*</span><span class="n">rpcTrayDim_big</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="p">):</span>
+                        <span class="n">ypos_mids</span>  <span class="o">=</span> <span class="o">-</span><span class="n">ypos_mids</span>
+                        <span class="n">ypos_midf</span>  <span class="o">=</span> <span class="o">-</span><span class="n">ypos_midf</span>
+                        <span class="n">ypos_small</span> <span class="o">=</span> <span class="o">-</span><span class="n">ypos_small</span>
+
+                <span class="n">smvrpct_in_muid</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span> <span class="s1">&#39;smvrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                          <span class="n">xpos_mids</span><span class="p">,</span>  <span class="n">ypos_mids</span><span class="p">,</span>  <span class="n">zpos</span><span class="p">)</span>
+                <span class="n">psmvrpct_in_muid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span> <span class="s1">&#39;psmvrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                           <span class="n">volume</span> <span class="o">=</span> <span class="n">smidTray_lv</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">smvrpct_in_muid</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span> <span class="s2">&quot;r90aboutXZ&quot;</span> <span class="p">)</span>
+                <span class="n">fmvrpct_in_muid</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span> <span class="s1">&#39;fmvrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                          <span class="n">xpos_midf</span><span class="p">,</span>  <span class="n">ypos_midf</span><span class="p">,</span>  <span class="n">zpos</span><span class="p">)</span>
+                <span class="n">pfmvrpct_in_muid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span> <span class="s1">&#39;pfmvrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                           <span class="n">volume</span> <span class="o">=</span> <span class="n">fmidTray_lv</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">fmvrpct_in_muid</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span> <span class="s2">&quot;r90aboutXZ&quot;</span> <span class="p">)</span>
+                <span class="n">svrpct_in_muid</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span> <span class="s1">&#39;svrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                          <span class="n">xpos_small</span><span class="p">,</span>  <span class="n">ypos_small</span><span class="p">,</span>  <span class="n">zpos</span><span class="p">)</span>
+                <span class="n">psvrpct_in_muid</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span> <span class="s1">&#39;psvrpct-&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_in_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                           <span class="n">volume</span> <span class="o">=</span> <span class="n">smallTray_lv</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">svrpct_in_muid</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span> <span class="s2">&quot;r90aboutXZ&quot;</span> <span class="p">)</span>
+
+                <span class="n">muidBar_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">psmvrpct_in_muid</span><span class="o">.</span><span class="n">name</span> <span class="p">)</span>
+                <span class="n">muidBar_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">pfmvrpct_in_muid</span><span class="o">.</span><span class="n">name</span> <span class="p">)</span>
+                <span class="n">muidBar_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">psvrpct_in_muid</span><span class="o">.</span><span class="n">name</span> <span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jose Palomino, Guang Yang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

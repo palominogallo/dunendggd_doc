@@ -1,0 +1,62 @@
+ndggd.Active package
+====================
+
+Submodules
+----------
+
+ndggd.Active.CylindricalScintillatorB module
+--------------------------------------------
+
+.. automodule:: ndggd.Active.CylindricalScintillatorB
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Active.Magnet module
+--------------------------
+
+.. automodule:: ndggd.Active.Magnet
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Active.RPCPad module
+--------------------------
+
+.. automodule:: ndggd.Active.RPCPad
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Active.RectBar module
+---------------------------
+
+.. automodule:: ndggd.Active.RectBar
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Active.RectangularScintillatorB module
+--------------------------------------------
+
+.. automodule:: ndggd.Active.RectangularScintillatorB
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Active.StrawTube module
+-----------------------------
+
+.. automodule:: ndggd.Active.StrawTube
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: ndggd.Active
+    :members:
+    :undoc-members:
+    :show-inheritance:

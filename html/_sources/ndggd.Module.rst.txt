@@ -1,0 +1,70 @@
+ndggd.Module package
+====================
+
+Submodules
+----------
+
+ndggd.Module.ECALBarrel module
+------------------------------
+
+.. automodule:: ndggd.Module.ECALBarrel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Module.ECALMod module
+---------------------------
+
+.. automodule:: ndggd.Module.ECALMod
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Module.MuIDBarrel module
+------------------------------
+
+.. automodule:: ndggd.Module.MuIDBarrel
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Module.MuIDEnd module
+---------------------------
+
+.. automodule:: ndggd.Module.MuIDEnd
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Module.ScintillatorTracker module
+---------------------------------------
+
+.. automodule:: ndggd.Module.ScintillatorTracker
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Module.primModule module
+------------------------------
+
+.. automodule:: ndggd.Module.primModule
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Module.primSubDet module
+------------------------------
+
+.. automodule:: ndggd.Module.primSubDet
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: ndggd.Module
+    :members:
+    :undoc-members:
+    :show-inheritance:

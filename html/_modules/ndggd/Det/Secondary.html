@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ndggd.Det.Secondary &#8212; dunendggd_doc 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ndggd.Det.Secondary</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Subbuilder of DetEncBuilder</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">gegede.builder</span>
+<span class="kn">from</span> <span class="nn">gegede</span> <span class="k">import</span> <span class="n">Quantity</span> <span class="k">as</span> <span class="n">Q</span>
+
+<div class="viewcode-block" id="SecondaryBuilder"><a class="viewcode-back" href="../../../ndggd.Det.html#ndggd.Det.Secondary.SecondaryBuilder">[docs]</a><span class="k">class</span> <span class="nc">SecondaryBuilder</span><span class="p">(</span><span class="n">gegede</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">Builder</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Assemble all the subsystems into one bounding box.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1">#^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^</span>
+<div class="viewcode-block" id="SecondaryBuilder.configure"><a class="viewcode-back" href="../../../ndggd.Det.html#ndggd.Det.Secondary.SecondaryBuilder.configure">[docs]</a>    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defMat</span> <span class="o">=</span> <span class="s1">&#39;Air&#39;</span><span class="p">,</span>  
+                  <span class="n">magInDim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">magThickness</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                  <span class="n">downMuIDtoMagnet</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">upMuIDtoMagnet</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sttDim</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sttDimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">ecalUpRot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ecalDownRot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ecalBarRot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">muidUpRot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">muidDownRot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">muidBarRot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">vesselAroundSTT</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">vesselThickness</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">magInDim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No value given for magInDim&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">vesselThickness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">vesselAroundSTT</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No value given for vesselThickness&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">defMat</span>      <span class="o">=</span> <span class="n">defMat</span>
+
+        <span class="c1"># dimensions of bounding box are calculated in construct</span>
+
+        <span class="c1"># Get all of the detector subsystems to position and place</span>
+<span class="c1">#        self.sttBldr      = self.get_builder(&#39;Tracker&#39;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ecalUpBldr</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;ECALUpstream&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ecalDownBldr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;ECALDownstream&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ecalBarBldr</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;ECALBarrel&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidUpBldr</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;MuIDUpstream&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidDownBldr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;MuIDDownstream&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidBarBldr</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;MuIDBarrel&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MagnetBldr</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_builder</span><span class="p">(</span><span class="s1">&#39;Magnet&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ecalUpRot</span>  <span class="o">=</span> <span class="n">ecalUpRot</span><span class="p">;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ecalDownRot</span><span class="o">=</span> <span class="n">ecalDownRot</span><span class="p">;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ecalBarRot</span><span class="o">=</span> <span class="n">ecalBarRot</span><span class="p">;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidUpRot</span><span class="o">=</span> <span class="n">muidUpRot</span><span class="p">;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidDownRot</span><span class="o">=</span> <span class="n">muidDownRot</span><span class="p">;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muidBarRot</span><span class="o">=</span> <span class="n">muidBarRot</span><span class="p">;</span>
+
+
+        <span class="c1"># set the inner and outer magnet dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span>  <span class="o">=</span> <span class="n">magInDim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">magInDim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="n">magThickness</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="n">magThickness</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magThickness</span> <span class="o">=</span> <span class="n">magThickness</span>
+	<span class="bp">self</span><span class="o">.</span><span class="n">sttDimension</span> <span class="o">=</span> <span class="n">sttDimension</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">upMuIDtoMagnet</span>   <span class="o">=</span> <span class="n">upMuIDtoMagnet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downMuIDtoMagnet</span> <span class="o">=</span> <span class="n">downMuIDtoMagnet</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vesselAroundSTT</span> <span class="o">=</span> <span class="n">vesselAroundSTT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vesselThickness</span> <span class="o">=</span> <span class="n">vesselThickness</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sttDim</span> <span class="o">=</span> <span class="n">sttDim</span></div>
+
+
+    <span class="c1">#^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^</span>
+<div class="viewcode-block" id="SecondaryBuilder.construct"><a class="viewcode-back" href="../../../ndggd.Det.html#ndggd.Det.Secondary.SecondaryBuilder.construct">[docs]</a>    <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geom</span><span class="p">):</span>
+        
+        <span class="c1"># Get subsystem dimensions, </span>
+<span class="c1">#        sttDim      = list(self.sttBldr.sttDim)</span>
+        <span class="n">muidDownDim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">muidDownBldr</span><span class="o">.</span><span class="n">muidDim</span><span class="p">)</span>
+        <span class="n">muidUpDim</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">muidUpBldr</span><span class="o">.</span><span class="n">muidDim</span><span class="p">)</span>
+        <span class="n">muidBarOutDim</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">muidBarBldr</span><span class="o">.</span><span class="n">muidOutDim</span><span class="p">)</span>
+        <span class="n">muidBarInDim</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">muidBarBldr</span><span class="o">.</span><span class="n">muidInDim</span><span class="p">)</span>
+        <span class="n">muidBarDim</span> <span class="o">=</span> <span class="n">muidBarOutDim</span>
+        <span class="n">ecalDownDim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalDownBldr</span><span class="o">.</span><span class="n">ecalModDim</span><span class="p">)</span>
+        <span class="n">ecalUpDim</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalUpBldr</span><span class="o">.</span><span class="n">ecalModDim</span><span class="p">)</span>
+        <span class="n">ecalBarOutDim</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalBarBldr</span><span class="o">.</span><span class="n">ecalOutDim</span><span class="p">)</span>
+        <span class="n">ecalBarInDim</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalBarBldr</span><span class="o">.</span><span class="n">ecalInDim</span><span class="p">)</span>
+        <span class="n">ecalBarDim</span>  <span class="o">=</span> <span class="n">ecalBarOutDim</span>
+
+        <span class="c1"># first check to see if ecal barrel fits in magnet, otherwise nudge it to fit</span>
+        <span class="c1"># need to do this before using and magnet dimensions for positioning</span>
+        <span class="k">if</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ecalBarDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">):</span>
+             <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: Barrel ECAL (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ecalBarDim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; high) does not fit inside magnet (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="o">=</span> <span class="n">ecalBarDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magThickness</span>
+             <span class="nb">print</span> <span class="s2">&quot;       ... nudging magnet inner and outer height dimensions to &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; and &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+             <span class="nb">print</span> <span class="s2">&quot;       ... this affects PRC placements, which fit tightly around magnet&quot;</span>
+
+        <span class="c1"># vol is a bounding box ~ not corresponding to physical volume.</span>
+        <span class="c1">#  assume Barrel biggest in x and y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detDim</span>    <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">muidBarDim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="n">muidUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">upMuIDtoMagnet</span> 
+                           <span class="o">+</span> <span class="n">muidBarDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> 
+                           <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">downMuIDtoMagnet</span> <span class="o">+</span> <span class="n">muidDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">)</span>
+
+
+        <span class="c1"># Position MuID Barrel</span>
+        <span class="c1"># Since the MuID is the outermost part of the detector, </span>
+        <span class="c1">#  assume Barrel is centered in xy</span>
+        <span class="n">muidBarPos</span>  <span class="o">=</span> <span class="p">[</span> <span class="n">Q</span><span class="p">(</span><span class="s1">&#39;0cm&#39;</span><span class="p">),</span><span class="n">Q</span><span class="p">(</span><span class="s1">&#39;0cm&#39;</span><span class="p">),</span> 
+                        <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">detDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">muidUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">upMuIDtoMagnet</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">muidBarDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
+
+
+        <span class="c1"># Position Magnet, assuming it is concentric with the MuID Barrel</span>
+        <span class="n">magPos</span>      <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">muidBarPos</span><span class="p">)</span> 
+
+
+        <span class="c1"># Position MuID Ends around magnet</span>
+        <span class="n">muidDownPos</span> <span class="o">=</span> <span class="p">[</span> <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="c1"># assume centered in xy</span>
+                        <span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">downMuIDtoMagnet</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">muidDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
+        <span class="n">muidUpPos</span>   <span class="o">=</span> <span class="p">[</span> <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">upMuIDtoMagnet</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">muidUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
+
+
+
+        <span class="c1"># Calculate bounding box dimensions of ECAL so that ECAL/STT unit can </span>
+        <span class="c1">#  be centered inside of the Magnet, until spacings are better known.</span>
+        <span class="c1"># Assume barrel is larger in x,y, while z dim is sum of stt and ECAL ends, with gap</span>
+        <span class="n">sttToEcal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ecalBarBldr</span><span class="o">.</span><span class="n">sTubeEndsToLead</span>
+        <span class="n">sttDim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sttDimension</span>
+        <span class="n">ecalBounds</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ecalBarDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                       <span class="n">ecalBarDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
+                       <span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">ecalDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">sttToEcal</span> <span class="p">]</span>
+
+
+        <span class="c1"># Position volSTT inside the Inner magnet volume</span>
+        <span class="n">sttPos</span> <span class="o">=</span> <span class="p">[</span> <span class="n">Q</span><span class="p">(</span><span class="s1">&#39;0cm&#39;</span><span class="p">),</span> 
+                   <span class="n">Q</span><span class="p">(</span><span class="s1">&#39;0cm&#39;</span><span class="p">),</span>
+                   <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalBounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">sttToEcal</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
+
+
+        <span class="c1"># Position ECAL Barrel</span>
+        <span class="n">ecalBarPos</span>    <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sttPos</span><span class="p">)</span>
+
+
+        <span class="c1"># Position ECAL Ends</span>
+        <span class="n">ecalDownPos</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="c1"># assume centered in xy</span>
+                        <span class="n">sttPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">sttToEcal</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
+        <span class="n">ecalUpPos</span>   <span class="o">=</span> <span class="p">[</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">sttPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">sttToEcal</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
+
+
+
+
+       <span class="c1">#########################################################################</span>
+       <span class="c1">########################### Check Assumptions ###########################</span>
+        
+        <span class="k">if</span><span class="p">(</span> <span class="n">muidDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">muidUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: Up and Downstream MuIDs the same thickness in beam direction&quot;</span>
+
+        <span class="c1"># For the Boolean shapes, make sure the inner/outer dimensions match </span>
+        <span class="c1">#  where they should -- barrel is a &quot;tube&quot; in z and magnet a &quot;tube&quot; in x</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">muidBarOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: MuID barrel not same length in z on inside and outside&quot;</span>
+            <span class="nb">print</span> <span class="s2">&quot;     inner barrel is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; and outer barrel is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">muidBarOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; in z&quot;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: Magnet not same length in x on inside and outside&quot;</span>
+            <span class="nb">print</span> <span class="s2">&quot;     inner magnet is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; and outer magnet is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; in x&quot;</span>
+
+        <span class="c1"># The MuID barrel should tightly hug the magnet,</span>
+        <span class="c1">#   and be the same dimension in z</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: MuID barrel not touching magnet in x&quot;</span>
+            <span class="nb">print</span> <span class="s2">&quot;     inner barrel is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; and magnet is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; in x&quot;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: MuID barrel not touching magnet in y&quot;</span>
+            <span class="nb">print</span> <span class="s2">&quot;     inner barrel is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; and outer magnet is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; in y&quot;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: MuID barrel not same length in z as magnet&quot;</span>
+            <span class="nb">print</span> <span class="s2">&quot;     barrel is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">muidBarInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; and outer magnet is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot; in z&quot;</span>
+
+        <span class="c1"># Check that the ECAL, positioned tightly around the STT, fits</span>
+        <span class="c1">#   inside the inner dimensions of the magnet.</span>
+        <span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">ecalUpPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: Upstream ECAL upstream z face (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ecalUpPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;) overlaps magnet (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
+            <span class="nb">print</span> <span class="s2">&quot;      ... downstream ECAL downstream face is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">ecalDownPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span><span class="o">+</span><span class="s2">&quot; away from magnet&quot;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">ecalDownPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: Downstream ECAL downstream z face (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ecalDownPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;) overlaps magnet (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
+            <span class="nb">print</span> <span class="s2">&quot;      ... upstream ECAL upstream face is &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ecalUpPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span><span class="o">+</span><span class="s2">&quot; away from magnet&quot;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">ecalDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: STT+ECAL ends (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ecalUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">ecalDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;) do not fit inside magnet (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
+ 
+        <span class="k">if</span><span class="p">(</span>       <span class="n">muidDownDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">muidBarDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
+               <span class="ow">or</span> <span class="n">muidDownDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">muidBarDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+               <span class="ow">or</span> <span class="n">muidUpDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>   <span class="o">&gt;</span> <span class="n">muidBarDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+               <span class="ow">or</span> <span class="n">muidUpDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>   <span class="o">&gt;</span> <span class="n">muidBarDim</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="p">):</span>
+            <span class="nb">print</span> <span class="s2">&quot;DetectorBuilder: MuID Ends have larger xy dimensions than Barrel&quot;</span>
+
+        <span class="c1">############################ Finish Checking ############################</span>
+        <span class="c1">#########################################################################</span>
+
+
+
+
+        <span class="c1"># Make detector box</span>
+        <span class="n">detBox</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>              <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">detDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                  <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">detDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>  <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">detDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">det_lv</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Volume</span><span class="p">(</span><span class="s1">&#39;vol&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">defMat</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">detBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_volume</span><span class="p">(</span><span class="n">det_lv</span><span class="p">)</span>
+
+       <span class="c1"># Define magnet as boolean, with hole to fit ECAL inside, place it</span>
+        <span class="n">magIn</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span>  <span class="s1">&#39;MagInnerShape&#39;</span><span class="p">,</span>               <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                  <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>  <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">magInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> 
+        <span class="n">mag_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MagnetBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volMagnet&#39;</span><span class="p">)</span>
+        <span class="n">magInner_lv</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Volume</span><span class="p">(</span><span class="s1">&#39;volMagnetInner&#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">defMat</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">magIn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_volume</span><span class="p">(</span><span class="n">magInner_lv</span><span class="p">)</span>
+        <span class="n">mag_in_det</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;Mag_in_MagInner&#39;</span><span class="p">,</span> <span class="n">magPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">magPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">magPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">pmag_in_D</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeMag_in_MagInner&#39;</span><span class="p">,</span>
+                                              <span class="n">volume</span> <span class="o">=</span> <span class="n">mag_lv</span><span class="p">,</span>
+                                              <span class="n">pos</span> <span class="o">=</span> <span class="n">mag_in_det</span><span class="p">)</span>
+        <span class="n">pmagInner_in_D</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeMagInner_in_MagInner&#39;</span><span class="p">,</span>
+                                                   <span class="n">volume</span> <span class="o">=</span> <span class="n">magInner_lv</span><span class="p">,</span>
+                                                   <span class="n">pos</span> <span class="o">=</span> <span class="n">mag_in_det</span><span class="p">)</span> <span class="c1"># same pos as magnet</span>
+
+        <span class="n">det_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pmag_in_D</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">det_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pmagInner_in_D</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+
+        <span class="c1"># Get STT colume and place in magnetezed inner magnet volume</span>
+<span class="c1">#        stt_lv = self.sttBldr.get_volume(&#39;volSTT&#39;)</span>
+<span class="c1">#        stt_in_det = geom.structure.Position(&#39;STT_in_MagInner&#39;, sttPos[0], sttPos[1], sttPos[2])</span>
+<span class="c1">#        pSTT_in_MagInner = geom.structure.Placement(&#39;placeSTT_in_MagInner&#39;,</span>
+<span class="c1">#                                             volume = stt_lv,</span>
+<span class="c1">#                                             pos = stt_in_det)</span>
+<span class="c1">#        magInner_lv.placements.append(pSTT_in_MagInner.name)</span>
+
+        
+        <span class="c1"># vessel steel plating for study by Steve Manly and student </span>
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vesselAroundSTT</span><span class="p">):</span>
+            <span class="k">if</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">vesselThickness</span> <span class="o">!=</span> <span class="n">Q</span><span class="p">(</span><span class="s1">&#39;0cm&#39;</span><span class="p">)</span> <span class="p">):</span>
+                <span class="n">vesselInDim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sttDim</span><span class="p">)</span>
+                <span class="n">vesselOutDim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sttDim</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+                    <span class="n">vesselInDim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">Q</span><span class="p">(</span><span class="s1">&#39;1um&#39;</span><span class="p">)</span>
+                    <span class="n">vesselOutDim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">vesselInDim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">vesselThickness</span>
+                <span class="n">vesselOut</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span> <span class="s1">&#39;VesselOut&#39;</span><span class="p">,</span>            <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">vesselOutDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                             <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">vesselOutDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">vesselOutDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> 
+                <span class="n">vesselIn</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span> <span class="s1">&#39;VesselInner&#39;</span><span class="p">,</span>          <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">vesselInDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                             <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">vesselInDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>  <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">vesselInDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> 
+                <span class="n">vesselBox</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(</span> <span class="s1">&#39;Vessel&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;subtraction&#39;</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">vesselOut</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="n">vesselIn</span> <span class="p">)</span> 
+                <span class="n">vessel_lv</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Volume</span><span class="p">(</span><span class="s1">&#39;volVessel&#39;</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="s1">&#39;Steel&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">vesselBox</span><span class="p">)</span>
+                <span class="n">pvessel_in_MagInner</span>  <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeVessel_in_MagInner&#39;</span><span class="p">,</span>
+                                                         <span class="n">volume</span> <span class="o">=</span> <span class="n">vessel_lv</span><span class="p">,</span>
+                                                         <span class="n">pos</span> <span class="o">=</span> <span class="n">stt_in_det</span><span class="p">)</span>
+        <span class="c1">#        magInner_lv.placements.append(pvessel_in_MagInner.name)                </span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Define and place &quot;framing&quot; volumes around STT</span>
+            <span class="n">sttFraming_yz</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span> <span class="s1">&#39;sttFraming_yz&#39;</span><span class="p">,</span>  <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">sttToEcal</span><span class="p">,</span>
+                                             <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">sttFraming_xz</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span> <span class="s1">&#39;sttFraming_xz&#39;</span><span class="p">,</span>  <span class="n">dx</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                             <span class="n">dy</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">sttToEcal</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">sttFr_yz_lv</span>   <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Volume</span><span class="p">(</span> <span class="s1">&#39;volsttFraming_yz&#39;</span><span class="p">,</span> 
+                                                   <span class="n">material</span><span class="o">=</span><span class="s1">&#39;sttFrameMix&#39;</span><span class="p">,</span> 
+                                                   <span class="n">shape</span><span class="o">=</span><span class="n">sttFraming_yz</span><span class="p">)</span>
+            <span class="n">sttFr_xz_lv</span>   <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Volume</span><span class="p">(</span> <span class="s1">&#39;volsttFraming_xz&#39;</span><span class="p">,</span> 
+                                                   <span class="n">material</span><span class="o">=</span><span class="s1">&#39;sttFrameMix&#39;</span><span class="p">,</span> 
+                                                   <span class="n">shape</span><span class="o">=</span><span class="n">sttFraming_xz</span><span class="p">)</span>
+            <span class="n">sttFr_negyz_pos</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;posSTT_negyz_framing&#39;</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttToEcal</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">sttFr_negxz_pos</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;posSTT_negxz_framing&#39;</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttToEcal</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">sttFr_posyz_pos</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;posSTT_posyz_framing&#39;</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttToEcal</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">sttFr_posxz_pos</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;posSTT_posxz_framing&#39;</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttDim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sttToEcal</span><span class="p">,</span> 
+                                                      <span class="n">sttPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">psttFr_negyz</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;place_sttFr_negyz&#39;</span><span class="p">,</span>
+                                                    <span class="n">volume</span> <span class="o">=</span> <span class="n">sttFr_yz_lv</span><span class="p">,</span>
+                                                    <span class="n">pos</span> <span class="o">=</span> <span class="n">sttFr_negyz_pos</span><span class="p">)</span>
+            <span class="n">psttFr_posyz</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;place_sttFr_posyz&#39;</span><span class="p">,</span>
+                                                    <span class="n">volume</span> <span class="o">=</span> <span class="n">sttFr_yz_lv</span><span class="p">,</span>
+                                                    <span class="n">pos</span> <span class="o">=</span> <span class="n">sttFr_posyz_pos</span><span class="p">)</span>
+            <span class="n">psttFr_negxz</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;place_sttFr_negxz&#39;</span><span class="p">,</span>
+                                                    <span class="n">volume</span> <span class="o">=</span> <span class="n">sttFr_xz_lv</span><span class="p">,</span>
+                                                    <span class="n">pos</span> <span class="o">=</span> <span class="n">sttFr_negxz_pos</span><span class="p">)</span>
+            <span class="n">psttFr_posxz</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;place_sttFr_posxz&#39;</span><span class="p">,</span>
+                                                    <span class="n">volume</span> <span class="o">=</span> <span class="n">sttFr_xz_lv</span><span class="p">,</span>
+                                                    <span class="n">pos</span> <span class="o">=</span> <span class="n">sttFr_posxz_pos</span><span class="p">)</span>
+         <span class="c1">#   magInner_lv.placements.append(psttFr_negyz.name)</span>
+         <span class="c1">#   magInner_lv.placements.append(psttFr_posyz.name)</span>
+         <span class="c1">#   magInner_lv.placements.append(psttFr_negxz.name)</span>
+         <span class="c1">#   magInner_lv.placements.append(psttFr_posxz.name)</span>
+
+
+        <span class="c1"># Get volECALDownstream, volECALUpstream, volECALBarrel volumes and place in volDetector</span>
+
+        <span class="n">ecalDown_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ecalDownBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volECALDownstream&#39;</span><span class="p">)</span>
+        <span class="n">ecalDown_in_det</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;ECALDown_in_MagInner&#39;</span><span class="p">,</span> <span class="n">ecalDownPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecalDownPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ecalDownPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">pecalDown_in_MagInner</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeECALDown_in_MagInner&#39;</span><span class="p">,</span>
+                                                  <span class="n">volume</span> <span class="o">=</span> <span class="n">ecalDown_lv</span><span class="p">,</span>
+                                                  <span class="n">pos</span> <span class="o">=</span> <span class="n">ecalDown_in_det</span><span class="p">,</span>
+                                                  <span class="n">rot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalDownRot</span><span class="p">)</span>
+        <span class="n">magInner_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pecalDown_in_MagInner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">ecalUp_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ecalUpBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volECALUpstream&#39;</span><span class="p">)</span>
+        <span class="n">ecalUp_in_det</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;ECALUp_in_MagInner&#39;</span><span class="p">,</span> <span class="n">ecalUpPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecalUpPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ecalUpPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">pecalUp_in_MagInner</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeECALUp_in_MagInner&#39;</span><span class="p">,</span>
+                                                <span class="n">volume</span> <span class="o">=</span> <span class="n">ecalUp_lv</span><span class="p">,</span>
+                                                <span class="n">pos</span> <span class="o">=</span> <span class="n">ecalUp_in_det</span><span class="p">,</span>
+                                                <span class="n">rot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalUpRot</span><span class="p">)</span>
+        <span class="n">magInner_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pecalUp_in_MagInner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">ecalBar_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ecalBarBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volECALBarrel&#39;</span><span class="p">)</span>
+        <span class="n">ecalBar_in_det</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;ECALBar_in_MagInner&#39;</span><span class="p">,</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">pecalBar_in_MagInner</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeECALBar_in_MagInner&#39;</span><span class="p">,</span>
+                                                 <span class="n">volume</span> <span class="o">=</span> <span class="n">ecalBar_lv</span><span class="p">,</span>
+                                                 <span class="n">pos</span> <span class="o">=</span> <span class="n">ecalBar_in_det</span><span class="p">,</span>
+                                                 <span class="n">rot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalBarRot</span><span class="p">)</span>
+        <span class="n">magInner_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pecalBar_in_MagInner</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">ecalBar_in_det2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;ECALBar_in_MagInner2&#39;</span><span class="p">,</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">Q</span><span class="p">(</span><span class="s1">&#39;6m&#39;</span><span class="p">))</span>
+        <span class="n">pecalBar_in_MagInner2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeECALBar_in_MagInner2&#39;</span><span class="p">,</span>
+                                                 <span class="n">volume</span> <span class="o">=</span> <span class="n">ecalBar_lv</span><span class="p">,</span>
+                                                 <span class="n">pos</span> <span class="o">=</span> <span class="n">ecalBar_in_det2</span><span class="p">,</span>
+                                                 <span class="n">rot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalBarRot</span><span class="p">)</span>
+        <span class="c1">#magInner_lv.placements.append(pecalBar_in_MagInner2.name)</span>
+
+        <span class="n">ecalBar_in_det3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;ECALBar_in_MagInner3&#39;</span><span class="p">,</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ecalBarPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">Q</span><span class="p">(</span><span class="s1">&#39;10m&#39;</span><span class="p">))</span>
+        <span class="n">pecalBar_in_MagInner3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeECALBar_in_MagInner3&#39;</span><span class="p">,</span>
+                                                 <span class="n">volume</span> <span class="o">=</span> <span class="n">ecalBar_lv</span><span class="p">,</span>
+                                                 <span class="n">pos</span> <span class="o">=</span> <span class="n">ecalBar_in_det3</span><span class="p">,</span>
+                                                 <span class="n">rot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ecalBarRot</span><span class="p">)</span>
+        <span class="c1">#magInner_lv.placements.append(pecalBar_in_MagInner3.name)</span>
+
+
+
+        <span class="c1"># Get volMuIDDownstream, volMuIDUpstream, volMuIDBarrel,</span>
+        <span class="c1">#   volumes and place in volDetector</span>
+        <span class="n">muidDown_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">muidDownBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volMuIDDownstream&#39;</span><span class="p">)</span>
+        <span class="n">muidDown_in_det</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;MuIDDown_in_Det&#39;</span><span class="p">,</span> <span class="n">muidDownPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">muidDownPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">muidDownPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">pmuidDown_in_D</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeMuIDDown_in_Det&#39;</span><span class="p">,</span>
+                                                  <span class="n">volume</span> <span class="o">=</span> <span class="n">muidDown_lv</span><span class="p">,</span>
+                                                  <span class="n">pos</span> <span class="o">=</span> <span class="n">muidDown_in_det</span><span class="p">,</span>
+                                                  <span class="n">rot</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">muidDownRot</span><span class="p">)</span>
+        <span class="n">det_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pmuidDown_in_D</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">muidUp_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">muidUpBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volMuIDUpstream&#39;</span><span class="p">)</span>
+        <span class="n">muidUp_in_det</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;MuIDUp_in_Det&#39;</span><span class="p">,</span> <span class="n">muidUpPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">muidUpPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">muidUpPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">pmuidUp_in_D</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeMuIDUp_in_Det&#39;</span><span class="p">,</span>
+                                                <span class="n">volume</span> <span class="o">=</span> <span class="n">muidUp_lv</span><span class="p">,</span>
+                                                <span class="n">pos</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">muidUpRot</span><span class="p">)</span>
+        <span class="n">det_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pmuidUp_in_D</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">muidBar_lv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">muidBarBldr</span><span class="o">.</span><span class="n">get_volume</span><span class="p">(</span><span class="s1">&#39;volMuIDBarrel&#39;</span><span class="p">)</span>
+        <span class="n">muidBar_in_det</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Position</span><span class="p">(</span><span class="s1">&#39;MuIDBar_in_Det&#39;</span><span class="p">,</span> <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">muidBarPos</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">pmuidBar_in_D</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">Placement</span><span class="p">(</span><span class="s1">&#39;placeMuIDBar_in_Det&#39;</span><span class="p">,</span>
+                                                 <span class="n">volume</span> <span class="o">=</span> <span class="n">muidBar_lv</span><span class="p">,</span>
+                                                 <span class="n">pos</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">muidBarRot</span><span class="p">)</span>
+        <span class="n">det_lv</span><span class="o">.</span><span class="n">placements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pmuidBar_in_D</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+       
+
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Jose Palomino, Guang Yang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

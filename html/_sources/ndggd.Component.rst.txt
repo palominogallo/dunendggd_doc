@@ -1,0 +1,54 @@
+ndggd.Component package
+=======================
+
+Submodules
+----------
+
+ndggd.Component.ComplexPlane module
+-----------------------------------
+
+.. automodule:: ndggd.Component.ComplexPlane
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Component.Plane module
+----------------------------
+
+.. automodule:: ndggd.Component.Plane
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Component.RPCMod module
+-----------------------------
+
+.. automodule:: ndggd.Component.RPCMod
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Component.RPCTray module
+------------------------------
+
+.. automodule:: ndggd.Component.RPCTray
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.Component.SimplePlane module
+----------------------------------
+
+.. automodule:: ndggd.Component.SimplePlane
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: ndggd.Component
+    :members:
+    :undoc-members:
+    :show-inheritance:

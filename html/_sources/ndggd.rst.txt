@@ -1,0 +1,40 @@
+ndggd package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    ndggd.Active
+    ndggd.Component
+    ndggd.Det
+    ndggd.Module
+
+Submodules
+----------
+
+ndggd.DetEnc module
+-------------------
+
+.. automodule:: ndggd.DetEnc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ndggd.World module
+------------------
+
+.. automodule:: ndggd.World
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: ndggd
+    :members:
+    :undoc-members:
+    :show-inheritance:
