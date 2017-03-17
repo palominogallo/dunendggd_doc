@@ -10,7 +10,7 @@ Welcome to dunendggd_doc's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   dunendggd
+   ndggd
 
 Indices and tables
 ==================
